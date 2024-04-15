@@ -1,38 +1,30 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Transform: 'AWS::Serverless-2016-10-31'
-Description: An example app with a Lambda function that sends texts via SNS.
-Parameters:
-  # Pass secrets that you don't want stored in your code repository as parameters
-  MyPhoneNumber:
-    Type: String
+name: Deploy product-serverless
+on:
+  push:
+    branches:
+      - main
 
-Resources:
-  CICDSendTextFunction:
-    # A Lambda function that sends messages to an SNS topic
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      FunctionName: CICDSendTextFunction
-      Handler: send_text_function.lambda_handler
-      Runtime: python3.7
-      Description: A Lambda function that sends text messages 
-      Timeout: 120
-      Policies:
-      # Find more SAM IAM policy templates here: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
-      - SNSPublishMessagePolicy:
-          # Our function only has permissions to send to the SNS topic we created
-          TopicName: !GetAtt CICDSendTextSNSTopic.TopicName
-      Environment:
-        Variables:
-          # If your functions need to use variables passed as parameters, reference them as environment variables
-          MY_PHONE_NUMBER: !Ref MyPhoneNumber
-          # You can also reference other resources created in this template as environment variables
-          SNS_TOPIC_ARN: !Ref CICDSendTextSNSTopic
-
-  CICDSendTextSNSTopic:
-    # An SNS topic
-    Type: AWS::SNS::Topic
-    Properties:
-      # Subscribing yourself to receive messages from this topic
-      Subscription:
-      - Protocol: sms
-        Endpoint: !Ref MyPhoneNumber
+jobs:
+  productionDeploy:
+    name: production-deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - name: Install Plugin and Deploy
+      uses: serverless/github-action@v3.2
+      with:
+        args: -c "serverless plugin install --name serverless-dotenv-plugin && serverless plugin install --name serverless-offline && serverless deploy --stage prod"
+        entrypoint: /bin/sh
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
