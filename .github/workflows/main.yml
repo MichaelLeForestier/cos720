@@ -1,33 +1,30 @@
-name: deploy to lambda
-on: [push]
+name: Deploy product-serverless
+on:
+  push:
+    branches:
+      - main
+
 jobs:
-  deploy_source:
-    name: build and deploy lambda
+  productionDeploy:
+    name: production-deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
     strategy:
       matrix:
-        node-version: [12.x]
-    runs-on: ubuntu-latest
+        node-version: [18.x]
     steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: npm install and build
-        run: |
-          npm ci
-          npm run build --if-present
-        env:
-          CI: true
-      - name: zip
-        uses: montudor/action-zip@v0.1.0
-        with:
-          args: zip -qq -r ./bundle.zip ./
-      - name: default deploy
-        uses: appleboy/lambda-action@master
-        with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: eu-west-1
-          function_name: my-function
-          zip_file: bundle.zip
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - name: Install Plugin and Deploy
+      uses: serverless/github-action@v3.2
+      with:
+        args: -c "serverless plugin install --name serverless-dotenv-plugin && serverless plugin install --name serverless-offline && serverless deploy --stage prod"
+        entrypoint: /bin/sh
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
