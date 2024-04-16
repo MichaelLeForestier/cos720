@@ -95,7 +95,7 @@ builder.Services.AddSwaggerGen(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddServiceDependency();
-
+builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

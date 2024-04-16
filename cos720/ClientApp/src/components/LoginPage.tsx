@@ -46,7 +46,7 @@ const LoginPage: React.FC<LoginPageProps> = () => {
   const handleLogin = async () => {
     try {
       
-      const response = await axiosInstance.post('https://localhost:7067/api/User/login', {
+      const response = await axiosInstance.post('https://master.d30mjcsalvppfh.amplifyapp.com/api/User/login', {
         email,
         password,
         
