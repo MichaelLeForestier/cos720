@@ -164,7 +164,7 @@ const LoginPage: React.FC<LoginPageProps> = () => {
         <Grid item xs={12}>
           <Typography variant="body2" align="center">
               Please Contact IT support at {' '} 
-              <a href="mailto:m.leforestier1@gmail.com" data-ajax="false">m.leforestier1@gmail.com</a>
+              <a href="mailto:m.leforestier1@gmail.com" data-ajax="false">m.leforestier@gmail.com</a>
           </Typography>
               </Grid>
       </Box>
