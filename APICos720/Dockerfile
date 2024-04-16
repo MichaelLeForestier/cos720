@@ -10,16 +10,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["WebAPiCos720/WebAPiCos720.csproj", "WebAPiCos720/"]
-RUN dotnet restore "WebAPiCos720/WebAPiCos720.csproj"
+COPY ["APICos720/APICos720.csproj", "APICos720/"]
+RUN dotnet restore "APICos720/APICos720.csproj"
 COPY . .
-WORKDIR "/src/WebAPiCos720"
-RUN dotnet build "WebAPiCos720.csproj" -c Release -o /app/build
+WORKDIR "/src/APICos720"
+RUN dotnet build "APICos720.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "WebAPiCos720.csproj" -c Release -o /app/publish
+RUN dotnet publish "APICos720.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "WebAPiCos720.dll"]
+ENTRYPOINT ["dotnet", "APICos720.dll"]
