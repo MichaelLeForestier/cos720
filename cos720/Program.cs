@@ -111,7 +111,7 @@ app.UseRouting();
 // Enable CORS
 app.UseCors(builder =>
 {
-    builder.WithOrigins("https://master.d30mjcsalvppfh.amplifyapp.com") // Specify the allowed origin
+    builder.WithOrigins("https://localhost:44465") // Specify the allowed origin
            .AllowAnyMethod()
            .AllowAnyHeader();
 });
