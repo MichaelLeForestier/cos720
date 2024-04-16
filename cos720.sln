@@ -30,6 +30,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.
 		{A135E8D3-FD66-4789-8477-FB3EAD0FE199} = {A135E8D3-FD66-4789-8477-FB3EAD0FE199}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPiCos720", "WebAPiCos720\WebAPiCos720.csproj", "{1EE9B1AB-D410-4E77-B80B-9354B7870F17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{C9323EE5-84AB-4F26-BFD5-F0A47984C078}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9323EE5-84AB-4F26-BFD5-F0A47984C078}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9323EE5-84AB-4F26-BFD5-F0A47984C078}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EE9B1AB-D410-4E77-B80B-9354B7870F17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EE9B1AB-D410-4E77-B80B-9354B7870F17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EE9B1AB-D410-4E77-B80B-9354B7870F17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EE9B1AB-D410-4E77-B80B-9354B7870F17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
