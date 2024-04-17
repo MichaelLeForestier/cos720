@@ -46,7 +46,7 @@ namespace Domain.DTO
             _role = role;
         }
 
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
         {
             var instance = validationContext.ObjectInstance as RegisterDto;
             if (instance != null && instance.Role == _role)
