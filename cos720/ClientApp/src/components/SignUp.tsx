@@ -57,7 +57,7 @@ const SignUp: FC<SignUpProps> = ({ onHideSignUp }) => {
         }
       };
       const response = await axios.post(
-        "https://localhost:7067/api/User/register",formData,config
+        "https://7dd17a8b0f0b9a.lhr.life/api/User/register",formData,config
       );
       console.log(response);
       toast.success('User successfully Registered', {

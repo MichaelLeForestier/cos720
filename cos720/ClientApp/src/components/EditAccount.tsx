@@ -53,7 +53,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         }
       };
       const response = await axios.put(
-        "https://localhost:7067/api/User/edit",
+        "https://7dd17a8b0f0b9a.lhr.life/api/User/edit",
         {
           editorEmail:localStorage.getItem('email'),
           email: formData.email,
