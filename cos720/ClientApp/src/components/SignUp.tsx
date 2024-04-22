@@ -57,7 +57,7 @@ const SignUp: FC<SignUpProps> = ({ onHideSignUp }) => {
         }
       };
       const response = await axios.post(
-        "https://6649b9ab3e251d.lhr.life/api/User/register",formData,config
+        "https://myapicos720-aged-sunset-6276.fly.dev/api/User/register",formData,config
       );
       console.log(response);
       toast.success('User successfully Registered', {
