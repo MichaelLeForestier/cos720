@@ -48,11 +48,11 @@ const ManageModules: React.FC<ManageModulesProps> = ({ isAdmin }) => {
           'Authorization': `Bearer ${token}`
         }
       };
-      const response = await axios.get(`https://7dd17a8b0f0b9a.lhr.life/api/Module/SearchModule?name=${searchName}&code=${searchCode}`,config);
+      const response = await axios.get(`https://6649b9ab3e251d.lhr.life/api/Module/SearchModule?name=${searchName}&code=${searchCode}`,config);
       setModules(response.data);
 
       // Fetch modules the current user is registered for
-      const userModulesResponse = await axios.get<UserModuleData[]>(`https://7dd17a8b0f0b9a.lhr.life/api/UserModule/UserModules/${userId}`,config);
+      const userModulesResponse = await axios.get<UserModuleData[]>(`https://6649b9ab3e251d.lhr.life/api/UserModule/UserModules/${userId}`,config);
       const userModuleIds = userModulesResponse.data.map((userModule: UserModuleData) => userModule.moduleId);
       setUserRegisteredModules(userModuleIds);
     } catch (error) {
@@ -89,7 +89,7 @@ const ManageModules: React.FC<ManageModulesProps> = ({ isAdmin }) => {
         }
       };
   
-      await axios.delete(`https://7dd17a8b0f0b9a.lhr.life/api/Module/DeleteModule/${moduleId}`, config);
+      await axios.delete(`https://6649b9ab3e251d.lhr.life/api/Module/DeleteModule/${moduleId}`, config);
       toast.success('Module successfully deleted', {
         position: 'top-right',
         autoClose: 2000,
@@ -132,7 +132,7 @@ const ManageModules: React.FC<ManageModulesProps> = ({ isAdmin }) => {
           'Authorization': `Bearer ${token}`
         }
       };
-      await axios.post(`https://7dd17a8b0f0b9a.lhr.life/api/UserModule/ModuleRegistration`, { userId, moduleId},config);
+      await axios.post(`https://6649b9ab3e251d.lhr.life/api/UserModule/ModuleRegistration`, { userId, moduleId},config);
       toast.success('Successfully registered for the module', {
         position: 'top-right',
         autoClose: 2000,
@@ -173,7 +173,7 @@ const ManageModules: React.FC<ManageModulesProps> = ({ isAdmin }) => {
           'Authorization': `Bearer ${token}`
         }
       };
-      await axios.post(`https://7dd17a8b0f0b9a.lhr.life/api/UserModule/ModuleDeregistration`, { userId, moduleId },config);
+      await axios.post(`https://6649b9ab3e251d.lhr.life/api/UserModule/ModuleDeregistration`, { userId, moduleId },config);
       toast.success('Successfully deregistered from the module', {
         position: 'top-right',
         autoClose: 2000,

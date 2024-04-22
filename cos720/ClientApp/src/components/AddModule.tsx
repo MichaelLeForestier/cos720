@@ -32,7 +32,7 @@ const AddModule: React.FC<AddModuleProps> = ({ onClose }) => {
         description: moduleDescription,
       };
 
-      await axios.post('https://7dd17a8b0f0b9a.lhr.life/api/Module/AddModule', moduleData,config);
+      await axios.post('https://6649b9ab3e251d.lhr.life/api/Module/AddModule', moduleData,config);
       toast.success('Module added successfully');
       onClose(); // Close the dialog after successful submission
     } catch (error) {
