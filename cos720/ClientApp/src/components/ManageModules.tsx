@@ -48,11 +48,11 @@ const ManageModules: React.FC<ManageModulesProps> = ({ isAdmin }) => {
           'Authorization': `Bearer ${token}`
         }
       };
-      const response = await axios.get(`https://myapicos720-aged-sunset-6276.fly.dev/api/Module/SearchModule?name=${searchName}&code=${searchCode}`,config);
+      const response = await axios.get(`https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/Module/SearchModule?name=${searchName}&code=${searchCode}`,config);
       setModules(response.data);
 
       // Fetch modules the current user is registered for
-      const userModulesResponse = await axios.get<UserModuleData[]>(`https://myapicos720-aged-sunset-6276.fly.dev/api/UserModule/UserModules/${userId}`,config);
+      const userModulesResponse = await axios.get<UserModuleData[]>(`https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/UserModule/UserModules/${userId}`,config);
       const userModuleIds = userModulesResponse.data.map((userModule: UserModuleData) => userModule.moduleId);
       setUserRegisteredModules(userModuleIds);
     } catch (error) {
@@ -89,7 +89,7 @@ const ManageModules: React.FC<ManageModulesProps> = ({ isAdmin }) => {
         }
       };
   
-      await axios.delete(`https://myapicos720-aged-sunset-6276.fly.dev/api/Module/DeleteModule/${moduleId}`, config);
+      await axios.delete(`https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/Module/DeleteModule/${moduleId}`, config);
       toast.success('Module successfully deleted', {
         position: 'top-right',
         autoClose: 2000,
@@ -132,7 +132,7 @@ const ManageModules: React.FC<ManageModulesProps> = ({ isAdmin }) => {
           'Authorization': `Bearer ${token}`
         }
       };
-      await axios.post(`https://myapicos720-aged-sunset-6276.fly.dev/api/UserModule/ModuleRegistration`, { userId, moduleId},config);
+      await axios.post(`https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/UserModule/ModuleRegistration`, { userId, moduleId},config);
       toast.success('Successfully registered for the module', {
         position: 'top-right',
         autoClose: 2000,
@@ -173,7 +173,7 @@ const ManageModules: React.FC<ManageModulesProps> = ({ isAdmin }) => {
           'Authorization': `Bearer ${token}`
         }
       };
-      await axios.post(`https://myapicos720-aged-sunset-6276.fly.dev/api/UserModule/ModuleDeregistration`, { userId, moduleId },config);
+      await axios.post(`https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/UserModule/ModuleDeregistration`, { userId, moduleId },config);
       toast.success('Successfully deregistered from the module', {
         position: 'top-right',
         autoClose: 2000,

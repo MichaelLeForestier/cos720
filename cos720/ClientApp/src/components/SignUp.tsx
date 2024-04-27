@@ -57,7 +57,7 @@ const SignUp: FC<SignUpProps> = ({ onHideSignUp }) => {
         }
       };
       const response = await axios.post(
-        "https://myapicos720-aged-sunset-6276.fly.dev/api/User/register",formData,config
+        "https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/User/register",formData,config
       );
       console.log(response);
       toast.success('User successfully Registered', {
