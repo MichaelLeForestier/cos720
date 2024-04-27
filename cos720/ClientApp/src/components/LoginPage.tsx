@@ -46,7 +46,7 @@ const LoginPage: React.FC<LoginPageProps> = () => {
   const handleLogin = async () => {
     try {
       
-      const response = await axiosInstance.post('https://myapicos720-aged-sunset-6276.fly.dev/api/User/login', {
+      const response = await axiosInstance.post('https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/User/login', {
         email,
         password,
         
