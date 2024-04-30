@@ -42,7 +42,8 @@ const LoginPage: React.FC<LoginPageProps> = () => {
   const handleLogin = async () => {
     try {
       setLoading(true); // Set loading state to true
-      const response = await axiosInstance.post('https://localhost:7067/api/User/login', {
+      //https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev
+      const response = await axiosInstance.post('https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/User/login', {
         email,
         password,
       });
@@ -81,17 +82,24 @@ const LoginPage: React.FC<LoginPageProps> = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container
+      component="main"
+      maxWidth="xs"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgroundColor: 'white', // Set white background
+        padding: '2rem', // Add padding
+        borderRadius: '8px', // Add border radius
+      }}
+    >
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 8,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          backgroundColor: 'white', // Set white background
-          padding: '2rem', // Add padding
-          borderRadius: '8px', // Add border radius
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>

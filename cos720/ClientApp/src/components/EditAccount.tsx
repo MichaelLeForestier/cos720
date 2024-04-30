@@ -54,7 +54,7 @@ const EditAccount: React.FC<EditAccountProps> = ({ onHideEditAccount }) => {
         }
       };
       const response = await axios.put(
-        "https://localhost:7067/api/User/edit",
+        "https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/User/edit",
         {
           editorEmail:localStorage.getItem('email'),
           email: formData.email,
