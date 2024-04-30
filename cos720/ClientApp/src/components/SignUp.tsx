@@ -21,10 +21,26 @@ const SignUp: FC<SignUpProps> = ({ onHideSignUp }) => {
 
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
+  const [studentNumberError, setStudentNumberError] = useState<string | null>(null);
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const [isLoading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    // Validation for name and surname fields to allow only alphabetic characters
+    if (name === 'name' || name === 'surname') {
+      if (!/^[a-zA-Z\s]*$/.test(value)) {
+        // If non-alphabetic characters are found, set an error message
+        setValidationError(`${name.charAt(0).toUpperCase() + name.slice(1)} must contain only alphabetic characters.`);
+      } else {
+        // If only alphabetic characters are present, clear the error message
+        setValidationError(null);
+        setFormData({ ...formData, [name]: value });
+      }
+    } else {
+      // For other fields, just update the form data
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const validatePassword = (password: string): boolean => {
@@ -32,8 +48,16 @@ const SignUp: FC<SignUpProps> = ({ onHideSignUp }) => {
     return passwordPattern.test(password);
   };
 
+  const validateStudentNumber = (studentNumber: string): boolean => {
+    const studentNumberPattern = /^u\d{8}$/;
+    return studentNumberPattern.test(studentNumber);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (validationError) {
+      return;
+    }
     if (!validatePassword(formData.password)) {
       setPasswordError('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.');
       return;
@@ -42,11 +66,15 @@ const SignUp: FC<SignUpProps> = ({ onHideSignUp }) => {
       setConfirmPasswordError('Passwords do not match');
       return;
     }
+    if (!validateStudentNumber(formData.studentNumber)) {
+      setStudentNumberError('Student number must start with "u" followed by 8 digits (e.g., u23735563)');
+      return;
+    }
 
     try {
-      const token = localStorage.getItem('token'); // Retrieve the token from localStorage or wherever it's stored
+      setLoading(true);
+      const token = localStorage.getItem('token');
       if (!token) {
-        // Handle case when token is not available
         console.error('Token not found');
         return;
       }
@@ -57,7 +85,7 @@ const SignUp: FC<SignUpProps> = ({ onHideSignUp }) => {
         }
       };
       const response = await axios.post(
-        "https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/User/register",formData,config
+        "https://localhost:7067/api/User/register",formData,config
       );
       console.log(response);
       toast.success('User successfully Registered', {
@@ -69,8 +97,8 @@ const SignUp: FC<SignUpProps> = ({ onHideSignUp }) => {
         draggable: true,
         progress: undefined,
         theme: 'light',
-    });
-      onHideSignUp(); // Close the signup dialog after successful registration
+      });
+      onHideSignUp();
     } catch (error) {
       console.error("Registration failed", error);
       toast.error("Failed to register User", {
@@ -83,11 +111,13 @@ const SignUp: FC<SignUpProps> = ({ onHideSignUp }) => {
         progress: 0,
         toastId: "my_toast",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleCancel = () => {
-    onHideSignUp(); // Close the signup dialog without registering
+    onHideSignUp();
   };
 
   return (
@@ -106,6 +136,8 @@ const SignUp: FC<SignUpProps> = ({ onHideSignUp }) => {
               value={formData.name}
               onChange={handleChange}
               required
+              error={!!validationError}
+              helperText={validationError}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -117,6 +149,8 @@ const SignUp: FC<SignUpProps> = ({ onHideSignUp }) => {
               value={formData.surname}
               onChange={handleChange}
               required
+              error={!!validationError}
+              helperText={validationError}
             />
           </Grid>
           <Grid item xs={12}>
@@ -139,6 +173,8 @@ const SignUp: FC<SignUpProps> = ({ onHideSignUp }) => {
               value={formData.studentNumber}
               onChange={handleChange}
               required
+              error={!!studentNumberError}
+              helperText={studentNumberError}
             />
           </Grid>
           <Grid item xs={12}>
@@ -185,8 +221,8 @@ const SignUp: FC<SignUpProps> = ({ onHideSignUp }) => {
             </TextField>
           </Grid>
           <Grid item xs={12}>
-            <Button variant="outlined" color="primary" type="submit" fullWidth>
-              Submit
+            <Button variant="outlined" color="primary" type="submit" fullWidth disabled={isLoading}>
+              {isLoading ? 'Loading...' : 'Submit'}
             </Button>
           </Grid>
           <Grid item xs={12}>

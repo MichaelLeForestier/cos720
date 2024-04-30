@@ -1,6 +1,7 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using MySql.EntityFrameworkCore.Metadata;
+
 
 #nullable disable
 
@@ -18,7 +19,7 @@ namespace Context.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Timestamp = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     LogLevel = table.Column<string>(type: "longtext", nullable: false),
                     Message = table.Column<string>(type: "longtext", nullable: false),
@@ -37,7 +38,7 @@ namespace Context.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     Code = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false),
@@ -69,7 +70,7 @@ namespace Context.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(type: "longtext", nullable: false),
                     ModuleId = table.Column<int>(type: "int", nullable: false),
                     RegistrationDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
@@ -114,7 +115,7 @@ namespace Context.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     RoleId = table.Column<string>(type: "varchar(255)", nullable: false),
                     ClaimType = table.Column<string>(type: "longtext", nullable: true),
                     ClaimValue = table.Column<string>(type: "longtext", nullable: true)
@@ -136,7 +137,7 @@ namespace Context.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false),
                     ClaimType = table.Column<string>(type: "longtext", nullable: true),
                     ClaimValue = table.Column<string>(type: "longtext", nullable: true)

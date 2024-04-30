@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { Container, Typography, TextField, Button, Grid } from '@mui/material';
+import { Container, Typography, TextField, Button, Grid, CircularProgress } from '@mui/material';
 import axiosInstance from '../Auth/AxiosInterceptor';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -19,11 +19,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
-
-
-
-
-
 interface LoginPageProps {}
 
 const LoginPage: React.FC<LoginPageProps> = () => {
@@ -31,6 +26,7 @@ const LoginPage: React.FC<LoginPageProps> = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitDisabled, setSubmitDisabled] = useState(true);
+  const [isLoading, setLoading] = useState(false); // State to manage loading state
   const [token, setToken] = useState<string | null>(null); // Store the token in state
   const history = useHistory();
 
@@ -45,11 +41,10 @@ const LoginPage: React.FC<LoginPageProps> = () => {
 
   const handleLogin = async () => {
     try {
-      
-      const response = await axiosInstance.post('https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/User/login', {
+      setLoading(true); // Set loading state to true
+      const response = await axiosInstance.post('https://localhost:7067/api/User/login', {
         email,
         password,
-        
       });
       const authToken = response.data.token;
       const role = response.data.role;
@@ -59,9 +54,6 @@ const LoginPage: React.FC<LoginPageProps> = () => {
       localStorage.setItem('email', email);
       localStorage.setItem('role',role);
       localStorage.setItem('token', authToken);
-      console.log('response:', response.data);
-      console.log('token', authToken);
-      console.log('Role:',role);
       setToken(authToken); // Set the token in state
       history.push('/');
     } catch (error) {
@@ -76,6 +68,8 @@ const LoginPage: React.FC<LoginPageProps> = () => {
         progress: undefined,
         theme: 'light',
       });
+    } finally {
+      setLoading(false); // Set loading state to false when request completes
     }
   };
 
@@ -95,6 +89,9 @@ const LoginPage: React.FC<LoginPageProps> = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          backgroundColor: 'white', // Set white background
+          padding: '2rem', // Add padding
+          borderRadius: '8px', // Add border radius
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -148,25 +145,25 @@ const LoginPage: React.FC<LoginPageProps> = () => {
               color="primary"
               fullWidth
               onClick={handleLogin}
-              disabled={isSubmitDisabled}
+              disabled={isSubmitDisabled || isLoading} // Disable button when submitting or loading
             >
-              Login
+              {isLoading ? <CircularProgress size={24} /> : 'Login'}{/* Show loading icon if loading */}
             </Button>
           </Grid>
           <Grid item xs={12}>
             <Typography variant="body2" align="center">
-              Trouble logging in?{' '} 
-              
-              
+              Trouble logging in?{' '}
             </Typography>
           </Grid>
         </Grid>
         <Grid item xs={12}>
           <Typography variant="body2" align="center">
-              Please Contact IT support at {' '} 
-              <a href="mailto:m.leforestier1@gmail.com" data-ajax="false">m.leforestier@gmail.com</a>
+              Please Contact IT support at{' '}
+              <a href="mailto:m.leforestier1@gmail.com" data-ajax="false">
+                m.leforestier@gmail.com
+              </a>
           </Typography>
-              </Grid>
+        </Grid>
       </Box>
     </Container>
   );

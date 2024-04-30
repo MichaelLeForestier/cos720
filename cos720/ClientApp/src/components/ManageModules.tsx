@@ -2,21 +2,18 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { TextField, Button, Table, TableHead, TableBody, TableRow, TableCell, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, TableContainer } from '@mui/material';
-import AddModule from './AddModule'; // Import the AddModule component
-import InfoIcon from '@mui/icons-material/Info'; // Import the Info icon from MUI
-import { config } from 'process';
+import AddModule from './AddModule';
+import InfoIcon from '@mui/icons-material/Info';
 
 interface Module {
   id: number;
   name: string;
   code: string;
   description: string;
-  // Add more properties as needed
 }
 
 interface UserModuleData {
-  moduleId: number; // Adjust the type accordingly if the ID is of a different type
-  // Add other properties if needed
+  moduleId: number;
 }
 
 interface ManageModulesProps {
@@ -33,26 +30,19 @@ const ManageModules: React.FC<ManageModulesProps> = ({ isAdmin }) => {
   const [userRegisteredModules, setUserRegisteredModules] = useState<number[]>([]);
   const userId = localStorage.getItem('Id') || 'U';
 
-  // Function to fetch modules from backend
   const fetchModules = async () => {
     try {
-      const token = localStorage.getItem('token'); // Retrieve the token from localStorage or wherever it's stored
+      const token = localStorage.getItem('token');
       if (!token) {
-        // Handle case when token is not available
         console.error('Token not found');
         return;
       }
   
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      };
-      const response = await axios.get(`https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/Module/SearchModule?name=${searchName}&code=${searchCode}`,config);
+      const config = { headers: { 'Authorization': `Bearer ${token}` } };
+      const response = await axios.get(`https://localhost:7067/api/Module/SearchModule?name=${searchName}&code=${searchCode}`, config);
       setModules(response.data);
 
-      // Fetch modules the current user is registered for
-      const userModulesResponse = await axios.get<UserModuleData[]>(`https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/UserModule/UserModules/${userId}`,config);
+      const userModulesResponse = await axios.get<UserModuleData[]>(`https://localhost:7067/api/UserModule/UserModules/${userId}`, config);
       const userModuleIds = userModulesResponse.data.map((userModule: UserModuleData) => userModule.moduleId);
       setUserRegisteredModules(userModuleIds);
     } catch (error) {
@@ -76,20 +66,14 @@ const ManageModules: React.FC<ManageModulesProps> = ({ isAdmin }) => {
 
   const handleDelete = async (moduleId: number) => {
     try {
-      const token = localStorage.getItem('token'); // Retrieve the token from localStorage or wherever it's stored
+      const token = localStorage.getItem('token');
       if (!token) {
-        // Handle case when token is not available
         console.error('Token not found');
         return;
       }
   
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      };
-  
-      await axios.delete(`https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/Module/DeleteModule/${moduleId}`, config);
+      const config = { headers: { 'Authorization': `Bearer ${token}` } };
+      await axios.delete(`https://localhost:7067/api/Module/DeleteModule/${moduleId}`, config);
       toast.success('Module successfully deleted', {
         position: 'top-right',
         autoClose: 2000,
@@ -100,7 +84,7 @@ const ManageModules: React.FC<ManageModulesProps> = ({ isAdmin }) => {
         progress: undefined,
         theme: 'light',
       });
-      fetchModules(); // Refresh modules list after deletion
+      fetchModules();
     } catch (error) {
       console.error('Failed to delete module', error);
       toast.error('Failed to delete module', {
@@ -115,24 +99,17 @@ const ManageModules: React.FC<ManageModulesProps> = ({ isAdmin }) => {
       });
     }
   };
-  
-  
 
   const handleRegister = async (moduleId: number, userId: string) => {
     try {
-      const token = localStorage.getItem('token'); // Retrieve the token from localStorage or wherever it's stored
+      const token = localStorage.getItem('token');
       if (!token) {
-        // Handle case when token is not available
         console.error('Token not found');
         return;
       }
   
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      };
-      await axios.post(`https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/UserModule/ModuleRegistration`, { userId, moduleId},config);
+      const config = { headers: { 'Authorization': `Bearer ${token}` } };
+      await axios.post(`https://localhost:7067/api/UserModule/ModuleRegistration`, { userId, moduleId }, config);
       toast.success('Successfully registered for the module', {
         position: 'top-right',
         autoClose: 2000,
@@ -143,7 +120,7 @@ const ManageModules: React.FC<ManageModulesProps> = ({ isAdmin }) => {
         progress: undefined,
         theme: 'light',
       });
-      fetchModules(); // Refresh modules list after registration
+      fetchModules();
     } catch (error) {
       console.error('Failed to register for the module', error);
       toast.error('Failed to register for the module', {
@@ -161,19 +138,14 @@ const ManageModules: React.FC<ManageModulesProps> = ({ isAdmin }) => {
 
   const handleDeregister = async (moduleId: number, userId: string) => {
     try {
-      const token = localStorage.getItem('token'); // Retrieve the token from localStorage or wherever it's stored
+      const token = localStorage.getItem('token');
       if (!token) {
-        // Handle case when token is not available
         console.error('Token not found');
         return;
       }
   
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      };
-      await axios.post(`https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/UserModule/ModuleDeregistration`, { userId, moduleId },config);
+      const config = { headers: { 'Authorization': `Bearer ${token}` } };
+      await axios.post(`https://localhost:7067/api/UserModule/ModuleDeregistration`, { userId, moduleId }, config);
       toast.success('Successfully deregistered from the module', {
         position: 'top-right',
         autoClose: 2000,
@@ -184,7 +156,7 @@ const ManageModules: React.FC<ManageModulesProps> = ({ isAdmin }) => {
         progress: undefined,
         theme: 'light',
       });
-      fetchModules(); // Refresh modules list after deregistration
+      fetchModules();
     } catch (error) {
       console.error('Failed to deregister from the module', error);
       toast.error('Failed to deregister from the module', {
@@ -216,46 +188,43 @@ const ManageModules: React.FC<ManageModulesProps> = ({ isAdmin }) => {
     setSelectedModule(null);
   };
 
-  // Sort the modules list so that registered modules appear at the top
   const sortedModules = modules.sort((a, b) => {
     const aIsRegistered = userRegisteredModules.includes(a.id);
     const bIsRegistered = userRegisteredModules.includes(b.id);
 
-    // If both modules are registered or unregistered, maintain their original order
     if (aIsRegistered === bIsRegistered) {
       return 0;
     }
 
-    // If module a is registered and module b is not, a should come before b
     if (aIsRegistered) {
       return -1;
     }
 
-    // If module b is registered and module a is not, b should come before a
     return 1;
   });
 
   return (
-    <div style={{ textAlign: 'center' }}>
-      <div style={{ marginBottom: '20px' }}>
-        <TextField
-          type="text"
-          value={searchName}
-          onChange={(e) => setSearchName(e.target.value)}
-          placeholder="Search by name"
-          variant="outlined"
-          size="small"
-          style={{ marginRight: '10px' }}
-        />
-        <TextField
-          type="text"
-          value={searchCode}
-          onChange={(e) => setSearchCode(e.target.value)}
-          placeholder="Search by code"
-          variant="outlined"
-          size="small"
-          style={{ marginRight: '10px' }}
-        />
+    <div style={{ textAlign: 'center', padding: '10px' }}>
+      <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+      <TextField
+  type="text"
+  value={searchName}
+  onChange={(e) => setSearchName(e.target.value)}
+  placeholder="Search by name"
+  variant="outlined"
+  size="small"
+  style={{ marginRight: '10px', marginBottom: '10px' }} // Add marginBottom here
+/>
+<TextField
+  type="text"
+  value={searchCode}
+  onChange={(e) => setSearchCode(e.target.value)}
+  placeholder="Search by code"
+  variant="outlined"
+  size="small"
+  style={{ marginRight: '10px', marginBottom: '10px' }} // Add marginBottom here
+/>
+
         <Button variant="contained" onClick={fetchModules} style={{ backgroundColor: 'rgb(0, 91, 171)', marginRight: '10px' }}>
           Search
         </Button>
@@ -268,7 +237,7 @@ const ManageModules: React.FC<ManageModulesProps> = ({ isAdmin }) => {
           Add New Module
         </Button>
       )}
-      <TableContainer style={{ maxHeight: '55vh', overflow: 'auto' }}>
+      <TableContainer style={{ maxHeight: '60vh', overflow: 'auto' }}>
         <Table stickyHeader>
           <TableHead>
             <TableRow style={{ 'backgroundColor': '#f5f5f5', "height": '35px', "width": '100%' }}>

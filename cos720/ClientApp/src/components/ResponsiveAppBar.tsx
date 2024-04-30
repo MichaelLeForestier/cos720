@@ -51,28 +51,24 @@ const ResponsiveAppBar: React.FC<Props> = ({
     window.location.href = '/login';
   };
 
-
-  
-
   const handleMenuItemClick = (setting: string) => {
     if (setting === 'Logout') {
       handleLogout();
     } else if (setting === 'Add User') {
-      onAddUser(); // Call onAddUser function when "Add User" is clicked
-      handleProfileMenuClose(); // Close the menu after adding user
+      onAddUser();
+      handleProfileMenuClose();
     } else if (setting === 'Edit Account'){
       editAccount();
       handleProfileMenuClose();
+    } else if (setting === 'Manage Modules'){
+      manageModules();
+      handleProfileMenuClose();
     }
-    else if (setting === 'Manage Modules'){
-    manageModules();
-    handleProfileMenuClose();
-  }
   };
 
   const userEmail = localStorage.getItem('email') || 'U';
   const userInitials = getInitials(userEmail);
-
+ 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{ background: `url(${backgroundImage})`, backgroundSize: 'contain' }}>
@@ -83,9 +79,17 @@ const ResponsiveAppBar: React.FC<Props> = ({
             component="div"
             sx={{
               display: 'flex',
-              alignItems: 'center', // Align the logo vertically
-              paddingLeft: 0, // Remove left padding
-              marginLeft: '-1.5rem', // Adjust margin to align flush with the left corner
+              alignItems: 'center',
+              paddingLeft: 0,
+              marginLeft: '-1.5rem',
+              '@media (max-width: 600px)': { // Apply styles only on screens smaller than 600px
+                '& img': {
+                  width: '50%',
+                  height: '50%',
+                  maxWidth: '100px',
+                  maxHeight: '100px'
+                }
+              }
             }}
           >
             <img src={Logo} alt="Logo" style={{ width: '70%', height: '70%' }} />
@@ -114,20 +118,18 @@ const ResponsiveAppBar: React.FC<Props> = ({
               open={Boolean(profileAnchorEl)}
               onClose={handleProfileMenuClose}
             >
-              {isAdmin && ( // Render "Add User" button only if isAdmin is true
+              {isAdmin && (
                 <MenuItem onClick={() => handleMenuItemClick('Add User')}>
                   Add User
                 </MenuItem>
               )}
-               
-                <MenuItem onClick={() => handleMenuItemClick('Manage Modules')}>
-                  Manage Modules
-                </MenuItem>
-             
+              <MenuItem onClick={() => handleMenuItemClick('Manage Modules')}>
+                Manage Modules
+              </MenuItem>
               {settings.map((setting) => (
                 <MenuItem
                   key={setting}
-                  onClick={() => handleMenuItemClick(setting)} // Pass setting to the handler
+                  onClick={() => handleMenuItemClick(setting)}
                 >
                   {setting}
                 </MenuItem>

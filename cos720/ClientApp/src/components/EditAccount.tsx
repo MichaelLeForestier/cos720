@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Typography, Grid } from '@mui/material';
+import { TextField, Button, Typography, Grid, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -17,6 +17,7 @@ const EditAccount: React.FC<EditAccountProps> = ({ onHideEditAccount }) => {
 
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
+  const [isLoading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -27,8 +28,8 @@ const EditAccount: React.FC<EditAccountProps> = ({ onHideEditAccount }) => {
     const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
     return passwordPattern.test(password);
   };
-  
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validatePassword(formData.newPassword)) {
       setPasswordError('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.');
@@ -40,9 +41,9 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     }
 
     try {
-      const token = localStorage.getItem('token'); // Retrieve the token from localStorage or wherever it's stored
+      setLoading(true);
+      const token = localStorage.getItem('token');
       if (!token) {
-        // Handle case when token is not available
         console.error('Token not found');
         return;
       }
@@ -53,7 +54,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         }
       };
       const response = await axios.put(
-        "https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/User/edit",
+        "https://localhost:7067/api/User/edit",
         {
           editorEmail:localStorage.getItem('email'),
           email: formData.email,
@@ -72,7 +73,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         progress: undefined,
         theme: 'light',
       });
-      onHideEditAccount(); // Close the edit account dialog
+      onHideEditAccount();
     } catch (error) {
       toast.error("Failed to update account", {
         position: "top-right",
@@ -84,16 +85,21 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         progress: 0,
         toastId: "my_toast",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleCancel = () => {
-    onHideEditAccount(); // Close the edit account dialog without updating
+    onHideEditAccount();
   };
+  
   const getRole = () => {
     return localStorage.getItem('role') === 'admin';
   };
+
   const isAdmin = getRole();
+
   return (
     <div>
       <Typography variant="h4" align="center" gutterBottom style={{ color: 'rgb(217, 26, 51)'}}>
@@ -109,10 +115,10 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              disabled={!isAdmin} // Disable editing for non-admins
+              disabled={!isAdmin}
             />
           </Grid>
-          {!isAdmin && // Render the "Current Password" field only if email is not editable
+          {!isAdmin &&
             <Grid item xs={12}>
               <TextField
                 label="Current Password"
@@ -155,8 +161,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <Button variant="outlined" color="primary" type="submit" fullWidth>
-              Update Account
+            <Button variant="outlined" color="primary" type="submit" fullWidth disabled={isLoading}>
+              {isLoading ? <CircularProgress size={24} /> : 'Update Account'}
             </Button>
           </Grid>
           <Grid item xs={12} md={6}>

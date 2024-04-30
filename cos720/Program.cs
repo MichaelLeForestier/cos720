@@ -32,16 +32,16 @@ builder.Services.AddDbContext<Context.MikeDbContext>(options =>
 builder.Services.AddIdentity<Domain.Entities.MikeUser, IdentityRole>()
                 .AddEntityFrameworkStores<Context.MikeDbContext>()
                 .AddDefaultTokenProviders();
-                
+
 // Configure JWT authentication
-    /*var jwtSettings = Configuration.GetSection("JwtSettings");*/
-    var key = Encoding.ASCII.GetBytes("JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr");
+/*var jwtSettings = Configuration.GetSection("JwtSettings");*/
+var key = Encoding.ASCII.GetBytes("JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr");
 // Adding Authentication with JWT Bearer
 builder.Services.AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
     .AddJwtBearer(options =>
     {
         options.RequireHttpsMetadata = false;
@@ -95,7 +95,7 @@ builder.Services.AddSwaggerGen(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddServiceDependency();
-builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
