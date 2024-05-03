@@ -30,7 +30,7 @@ axiosInstance.interceptors.response.use(
             const { status } = error.response;
             if (status === 401) {
                 // Redirect to the login page using React Router's history object
-                window.location.href = '/login';
+                window.location.href = '/WelcomePage';
             }
 
             //add in additional here

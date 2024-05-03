@@ -9,6 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
+import Button from '@mui/material/Button'; // Import Button component
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import Logo from './IconMike/logo.png';
@@ -18,7 +19,7 @@ interface Props {
   isAdmin: boolean;
   onAddUser: () => void;
   editAccount:() => void;
-  manageModules:()=>void;
+  manageModules:() => void;
 }
 
 const settings = ['Edit Account','Logout']; // Only "Logout" is displayed in settings
@@ -68,6 +69,8 @@ const ResponsiveAppBar: React.FC<Props> = ({
 
   const userEmail = localStorage.getItem('email') || 'U';
   const userInitials = getInitials(userEmail);
+
+  const token = localStorage.getItem('token');
  
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -82,7 +85,7 @@ const ResponsiveAppBar: React.FC<Props> = ({
               alignItems: 'center',
               paddingLeft: 0,
               marginLeft: '-1.5rem',
-              '@media (max-width: 600px)': { // Apply styles only on screens smaller than 600px
+              '@media (max-width: 600px)': {
                 '& img': {
                   width: '50%',
                   height: '50%',
@@ -95,47 +98,51 @@ const ResponsiveAppBar: React.FC<Props> = ({
             <img src={Logo} alt="Logo" style={{ width: '70%', height: '70%' }} />
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Box>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleProfileMenuOpen} sx={{ p: 0 }} style={{backgroundColor: 'rgb(0, 91, 171)'}} >
-                <Avatar alt="User" src="/static/images/avatar/2.jpg" style={{backgroundColor: 'rgb(0, 91, 171)'}}>
-                  {userInitials}
-                </Avatar>
-              </IconButton>
-            </Tooltip>
-            <Menu
-              id="menu-appbar"
-              anchorEl={profileAnchorEl}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(profileAnchorEl)}
-              onClose={handleProfileMenuClose}
-            >
-              {isAdmin && (
-                <MenuItem onClick={() => handleMenuItemClick('Add User')}>
-                  Add User
+          {token ? (
+            <Box>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleProfileMenuOpen} sx={{ p: 0 }} style={{backgroundColor: 'rgb(0, 91, 171)'}} >
+                  <Avatar alt="User" src="/static/images/avatar/2.jpg" style={{backgroundColor: 'rgb(0, 91, 171)'}}>
+                    {userInitials}
+                  </Avatar>
+                </IconButton>
+              </Tooltip>
+              <Menu
+                id="menu-appbar"
+                anchorEl={profileAnchorEl}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(profileAnchorEl)}
+                onClose={handleProfileMenuClose}
+              >
+                {isAdmin && (
+                  <MenuItem onClick={() => handleMenuItemClick('Add User')}>
+                    Add User
+                  </MenuItem>
+                )}
+                <MenuItem onClick={() => handleMenuItemClick('Manage Modules')}>
+                  Manage Modules
                 </MenuItem>
-              )}
-              <MenuItem onClick={() => handleMenuItemClick('Manage Modules')}>
-                Manage Modules
-              </MenuItem>
-              {settings.map((setting) => (
-                <MenuItem
-                  key={setting}
-                  onClick={() => handleMenuItemClick(setting)}
-                >
-                  {setting}
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+                {settings.map((setting) => (
+                  <MenuItem
+                    key={setting}
+                    onClick={() => handleMenuItemClick(setting)}
+                  >
+                    {setting}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          ) : (
+            <Button  variant="contained" color="primary" style={{ marginTop: '10px',backgroundColor: 'rgb(0, 91, 171)' }} onClick={() => window.location.href = '/login'}>Login</Button>
+          )}
         </Toolbar>
       </AppBar>
     </Box>

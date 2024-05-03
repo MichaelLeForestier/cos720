@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect, RouteProps, useHistory } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import HomePage from './components/ResponsiveAppBar';
-import Store from './components/Home';
+import Home from './components/Home';
 import LoginPage from './components/LoginPage';
 import SignUpPage from './components/SignUp';
 import PrivateRoute from './Auth/PrivateRoute'; // Import the PrivateRoute component
 import { ToastContainer } from 'react-toastify';
+import WelcomePage from './components/WelcomePage';
 
 import 'react-toastify/dist/ReactToastify.css';
+import HomeLogin from './components/HomeLogin';
 
 const App: React.FC = () => {
   const token = localStorage.getItem('token');
@@ -18,7 +20,7 @@ const App: React.FC = () => {
     console.log(token);
     if (!token) {
       // Redirect to the login page if the token is not found
-      history.push('/login');
+      history.push('/WelcomePage');
     }
   }, [token, history]);
 
@@ -38,7 +40,7 @@ const App: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     // Redirect to the login page after logout
-    history.push('/login');
+    history.push('/WelcomePage');
   };
 
   return (
@@ -58,11 +60,11 @@ const App: React.FC = () => {
         />
         <Switch>
           <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/signup" component={SignUpPage} />
+          <Route exact path="/WelcomePage" component={HomeLogin} />
       
-          <PrivateRoute exact path="/" component={Store} />
+          <PrivateRoute exact path="/" component={Home} />
           <Redirect from="/#" to="/" /> {/* Redirect from /# to / */}
-          <Redirect to="/login" /> {/* Redirect to the login page for all other paths */}
+          <Redirect to="/WelcomePage"/> {/* Redirect to the login page for all other paths */}
         </Switch>
       </div>
     </Router>
