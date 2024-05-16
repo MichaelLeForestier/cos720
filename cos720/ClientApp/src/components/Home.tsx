@@ -10,6 +10,7 @@ const Home: React.FC = () => {
   const [showSignup, setShowSignup] = useState<boolean>(false);
   const [showEditAccount, setShowEditAccount] = useState<boolean>(false);
   const [showManageModules, setShowManageModules] = useState<boolean>(false);
+
   const handleShowSignup = () => {
     setShowSignup(true);
     setShowEditAccount(false); // Ensure edit account is hidden
@@ -29,16 +30,17 @@ const Home: React.FC = () => {
   const handleHideEditAccount = () => {
     setShowEditAccount(false);
   };
-  const handleShowManageModules =( )=>{
+
+  const handleShowManageModules = () => {
     setShowManageModules(true);
     setShowEditAccount(false);
     setShowSignup(false);
   };
 
-  const handleHideManageModules =( )=>{
+  const handleHideManageModules = () => {
     setShowManageModules(false);
-    
   };
+
   const getRole = () => {
     return localStorage.getItem('role') === 'admin';
   };
@@ -46,7 +48,7 @@ const Home: React.FC = () => {
   const isAdmin = getRole();
 
   return (
-    <div >
+    <div>
       <ResponsiveAppBar
         isAdmin={isAdmin}
         onAddUser={handleShowSignup}
@@ -55,7 +57,7 @@ const Home: React.FC = () => {
       />
       <Container maxWidth="xl" style={{ paddingTop: '20px', marginBottom: '40px' }}>
         {/* Show WelcomePage when neither SignUp nor EditAccount is shown */}
-        {!showSignup && !showEditAccount &&  !showManageModules && <WelcomePage />}
+        {!showSignup && !showEditAccount && !showManageModules && <WelcomePage />}
       </Container>
       {showSignup && (
         <Container maxWidth="md">
@@ -69,10 +71,10 @@ const Home: React.FC = () => {
       )}
       {showManageModules && (
         <Container maxWidth="md">
-          <ManageModules onHideManageModules={handleHideManageModules} isAdmin={isAdmin}/>
+          <ManageModules onHideManageModules={handleHideManageModules} isAdmin={isAdmin} />
         </Container>
       )}
-      <footer style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', textAlign: 'center', backgroundColor: 'rgb(0, 91, 171)', color: '#fff', padding: '10px 0' }}>
+      <footer style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', textAlign: 'center', backgroundColor: 'rgb(0, 91, 171)', color: '#fff', padding: '10px 0', marginTop: '20px' }}>
         Created by Michael le Forestier &copy; {new Date().getFullYear()}
       </footer>
     </div>
