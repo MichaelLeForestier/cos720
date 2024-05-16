@@ -11,13 +11,26 @@ const AddModule: React.FC<AddModuleProps> = ({ onClose }) => {
   const [moduleName, setModuleName] = useState<string>('');
   const [moduleCode, setModuleCode] = useState<string>('');
   const [moduleDescription, setModuleDescription] = useState<string>('');
+  const [errors, setErrors] = useState<{[key: string]: string}>({});
+
+  const validate = () => {
+    const newErrors: {[key: string]: string} = {};
+    if (!moduleName) newErrors.moduleName = 'Module name is required';
+    if (!moduleCode) newErrors.moduleCode = 'Module code is required';
+    if (!moduleDescription) newErrors.moduleDescription = 'Module description is required';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async () => {
+    if (!validate()) return;
+
     try {
       const token = localStorage.getItem('token'); // Retrieve the token from localStorage or wherever it's stored
       if (!token) {
         // Handle case when token is not available
         console.error('Token not found');
+        toast.error('Authentication token is missing');
         return;
       }
   
@@ -32,11 +45,10 @@ const AddModule: React.FC<AddModuleProps> = ({ onClose }) => {
         description: moduleDescription,
       };
 
-      await axios.post('https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/Module/AddModule', moduleData,config);
+      await axios.post('https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/Module/AddModule', moduleData, config);
       toast.success('Module added successfully');
       onClose(); // Close the dialog after successful submission
     } catch (error) {
-      
       toast.error('Failed to add module');
     }
   };
@@ -54,6 +66,8 @@ const AddModule: React.FC<AddModuleProps> = ({ onClose }) => {
         onChange={(e) => setModuleName(e.target.value)}
         fullWidth
         margin="normal"
+        error={!!errors.moduleName}
+        helperText={errors.moduleName}
       />
       <TextField
         label="Module Code"
@@ -62,6 +76,8 @@ const AddModule: React.FC<AddModuleProps> = ({ onClose }) => {
         onChange={(e) => setModuleCode(e.target.value)}
         fullWidth
         margin="normal"
+        error={!!errors.moduleCode}
+        helperText={errors.moduleCode}
       />
       <TextField
         label="Module Description"
@@ -72,6 +88,8 @@ const AddModule: React.FC<AddModuleProps> = ({ onClose }) => {
         margin="normal"
         multiline
         rows={4}
+        error={!!errors.moduleDescription}
+        helperText={errors.moduleDescription}
       />
       <Button variant="contained" onClick={handleSubmit} style={{ marginRight: '10px' }}>
         Add

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { TextField, Button, Typography, Grid, CircularProgress } from '@mui/material';
+import { TextField, Button, Typography, Grid, CircularProgress, IconButton, InputAdornment } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -18,6 +19,8 @@ const EditAccount: React.FC<EditAccountProps> = ({ onHideEditAccount }) => {
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -56,11 +59,11 @@ const EditAccount: React.FC<EditAccountProps> = ({ onHideEditAccount }) => {
       const response = await axios.put(
         "https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/User/edit",
         {
-          editorEmail:localStorage.getItem('email'),
+          editorEmail: localStorage.getItem('email'),
           email: formData.email,
           newPassword: formData.newPassword,
           currentPassword: formData.currentPassword
-        },config
+        }, config
       );
       console.log(response);
       toast.success('Account updated successfully', {
@@ -102,7 +105,7 @@ const EditAccount: React.FC<EditAccountProps> = ({ onHideEditAccount }) => {
 
   return (
     <div>
-      <Typography variant="h4" align="center" gutterBottom style={{ color: 'rgb(217, 26, 51)'}}>
+      <Typography variant="h4" align="center" gutterBottom style={{ color: 'rgb(217, 26, 51)' }}>
         Edit Account
       </Typography>
       <form autoComplete="off" onSubmit={handleSubmit}>
@@ -124,11 +127,23 @@ const EditAccount: React.FC<EditAccountProps> = ({ onHideEditAccount }) => {
                 label="Current Password"
                 variant="outlined"
                 fullWidth
-                type="password"
+                type={showCurrentPassword ? "text" : "password"}
                 name="currentPassword"
                 value={formData.currentPassword}
                 onChange={handleChange}
                 required
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                        edge="end"
+                      >
+                        {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
               />
             </Grid>
           }
@@ -137,13 +152,25 @@ const EditAccount: React.FC<EditAccountProps> = ({ onHideEditAccount }) => {
               label="New Password"
               variant="outlined"
               fullWidth
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="newPassword"
               value={formData.newPassword}
               onChange={handleChange}
               required
               error={!!passwordError}
               helperText={passwordError}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -151,13 +178,25 @@ const EditAccount: React.FC<EditAccountProps> = ({ onHideEditAccount }) => {
               label="Confirm New Password"
               variant="outlined"
               fullWidth
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
               required
               error={!!confirmPasswordError}
               helperText={confirmPasswordError}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
