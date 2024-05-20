@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Table, TableHead, TableBody, TableRow, TableCell, TextField, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TableContainer } from '@mui/material';
-import InfoIcon from '@mui/icons-material/Info';
+import { Table, TableHead, TableBody, TableRow, TableCell, TextField, Button, TableContainer } from '@mui/material';
 
 interface Log {
   id: number;
@@ -37,7 +36,6 @@ const LogPage: React.FC<ReviewLogsProps> = ({ onHideReviewLogs }) => {
       setLogs(response.data);
     } catch (error) {
       console.error('Failed to fetch logs', error);
-      // Handle error
     }
   };
 
@@ -77,7 +75,7 @@ const LogPage: React.FC<ReviewLogsProps> = ({ onHideReviewLogs }) => {
           Refresh
         </Button>
       </div>
-      <TableContainer style={{ maxWidth: '200px', margin: '0 auto' }}> {/* Set max width for the table container */}
+      <TableContainer style={{ maxWidth: '800px', margin: '0 auto' }}>
         <Table>
           <TableHead>
             <TableRow style={{ backgroundColor: '#f5f5f5' }}>
@@ -92,12 +90,12 @@ const LogPage: React.FC<ReviewLogsProps> = ({ onHideReviewLogs }) => {
           <TableBody>
             {logs.map((log) => (
               <TableRow key={log.id}>
-                <TableCell>{log.id}</TableCell>
-                <TableCell>{log.timestamp}</TableCell>
-                <TableCell>{log.message}</TableCell>
-                <TableCell>{log.exception}</TableCell>
-                <TableCell>{log.action}</TableCell>
-                <TableCell>{log.userId}</TableCell>
+                <TableCell style={{ width: '10%' }}>{log.id}</TableCell>
+                <TableCell style={{ width: '20%' }}>{log.timestamp}</TableCell>
+                <TableCell style={{ width: '20%' }}>{log.message}</TableCell>
+                <TableCell style={{ width: '20%' }}>{log.exception}</TableCell>
+                <TableCell style={{ width: '15%' }}>{log.action}</TableCell>
+                <TableCell style={{ width: '15%' }}>{log.userId}</TableCell>
               </TableRow>
             ))}
           </TableBody>
