@@ -71,7 +71,7 @@ const Home: React.FC = () => {
         onAddUser={handleShowSignup}
         editAccount={handleShowEditAccount}
         manageModules={handleShowManageModules}
-        reviewLogs={handleShowReviewLogs} // Pass reviewLogs handler to ResponsiveAppBar
+        reviewLogs= {handleShowReviewLogs}// Pass reviewLogs handler to ResponsiveAppBar
       />
       <Container maxWidth="xl" style={{ paddingTop: '20px', marginBottom: '40px' }}>
         {/* Show WelcomePage when neither SignUp nor EditAccount nor ManageModules nor ReviewLogs is shown */}
