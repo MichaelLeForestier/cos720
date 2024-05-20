@@ -75,7 +75,7 @@ const LogPage: React.FC<ReviewLogsProps> = ({ onHideReviewLogs }) => {
           Refresh
         </Button>
       </div>
-      <TableContainer style={{maxHeight: '60vh', maxWidth: '80vw', margin: '0 auto' }}>
+      <TableContainer style={{maxHeight: '50vh', maxWidth: '80vw', margin: '0 auto' }}>
         <Table>
           <TableHead>
             <TableRow style={{ backgroundColor: '#f5f5f5' }}>
