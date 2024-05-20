@@ -93,7 +93,7 @@ const LogPage: React.FC<ReviewLogsProps> = ({ onHideReviewLogs }) => {
                 <TableCell style={{ width: '10%' }}>{log.id}</TableCell>
                 <TableCell style={{ width: '20%' }}>{log.timestamp}</TableCell>
                 <TableCell style={{ width: '20%' }}>{log.message}</TableCell>
-                <TableCell style={{ width: '20%' }}>{log.exception}</TableCell>
+                <TableCell style={{ width: '100px' }}>{log.exception}</TableCell>
                 <TableCell style={{ width: '15%' }}>{log.action}</TableCell>
                 <TableCell style={{ width: '15%' }}>{log.userId}</TableCell>
               </TableRow>
@@ -101,12 +101,7 @@ const LogPage: React.FC<ReviewLogsProps> = ({ onHideReviewLogs }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Button
-        onClick={onHideReviewLogs}
-        style={{ marginTop: '20px', backgroundColor: 'rgb(0, 91, 171)', color: 'white' }}
-      >
-        Return to Welcome Page
-      </Button>
+      
     </div>
   );
 };

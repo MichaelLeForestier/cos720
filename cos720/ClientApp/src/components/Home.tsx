@@ -97,7 +97,7 @@ const Home: React.FC = () => {
           <ReviewLogs onHideReviewLogs={handleHideReviewLogs} /> {/* Pass onHideReviewLogs to handle hiding ReviewLogs */}
         </Container>
       )}
-      <footer style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', textAlign: 'center', backgroundColor: 'rgb(0, 91, 171)', color: '#fff', padding: '10px 0', marginTop: '20px' }}>
+      <footer style={{ bottom: 0, left: 0, width: '100%', textAlign: 'center', backgroundColor: 'rgb(0, 91, 171)', color: '#fff', padding: '10px 0', marginTop: '20px' }}>
         Created by Michael le Forestier &copy; {new Date().getFullYear()}
       </footer>
     </div>
