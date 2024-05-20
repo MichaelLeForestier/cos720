@@ -163,14 +163,19 @@ const LoginPage: React.FC<LoginPageProps> = () => {
               Trouble logging in?{' '}
             </Typography>
           </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography variant="body2" align="center">
+          <Grid item xs={12}>
+            <Typography variant="body2" align="center">
               Please Contact IT support at{' '}
               <a href="mailto:m.leforestier1@gmail.com" data-ajax="false">
                 m.leforestier@gmail.com
               </a>
-          </Typography>
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Button component={Link} to="/" variant="outlined" fullWidth>
+              Back
+            </Button>
+          </Grid>
         </Grid>
       </Box>
     </Container>
