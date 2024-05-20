@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
+import { Table, TableHead, TableBody, TableRow, TableCell, TextField, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TableContainer } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
 
 interface Log {
   id: number;
@@ -42,37 +43,72 @@ const LogPage: React.FC<ReviewLogsProps> = ({ onHideReviewLogs }) => {
 
   return (
     <div style={{ textAlign: 'center', padding: '10px' }}>
-      <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
-        <input type="text" value={action} onChange={(e) => setAction(e.target.value)} placeholder="Search by action" style={{ marginRight: '10px', marginBottom: '10px', padding: '5px', borderRadius: '5px', border: '1px solid #ccc' }} />
-        <input type="text" value={userId} onChange={(e) => setUserId(e.target.value)} placeholder="Search by userId" style={{ marginRight: '10px', marginBottom: '10px', padding: '5px', borderRadius: '5px', border: '1px solid #ccc' }} />
-        <button onClick={fetchLogs} style={{ marginRight: '10px', marginBottom: '10px', backgroundColor: 'rgb(0, 91, 171)', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '5px', cursor: 'pointer' }}>Search</button>
-        <button onClick={() => { setAction(''); setUserId(''); fetchLogs(); }} style={{ backgroundColor: 'rgb(0, 91, 171)', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '5px', cursor: 'pointer' }}>Refresh</button>
+      <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <TextField
+          type="text"
+          value={action}
+          onChange={(e) => setAction(e.target.value)}
+          placeholder="Search by action"
+          variant="outlined"
+          size="small"
+          style={{ marginRight: '10px', marginBottom: '10px' }}
+        />
+        <TextField
+          type="text"
+          value={userId}
+          onChange={(e) => setUserId(e.target.value)}
+          placeholder="Search by userId"
+          variant="outlined"
+          size="small"
+          style={{ marginRight: '10px', marginBottom: '10px' }}
+        />
+        <Button
+          variant="contained"
+          onClick={fetchLogs}
+          style={{ backgroundColor: 'rgb(0, 91, 171)', marginRight: '10px', marginBottom: '10px' }}
+        >
+          Search
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => { setAction(''); setUserId(''); fetchLogs(); }}
+          style={{ backgroundColor: 'rgb(0, 91, 171)', marginBottom: '10px' }}
+        >
+          Refresh
+        </Button>
       </div>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell style={{ width: '10%' }}>Id</TableCell>
-            <TableCell style={{ width: '20%' }}>Timestamp</TableCell>
-            <TableCell style={{ width: '20%' }}>Message</TableCell>
-            <TableCell style={{ width: '20%' }}>Exception</TableCell>
-            <TableCell style={{ width: '15%' }}>Action</TableCell>
-            <TableCell style={{ width: '15%' }}>UserId</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {logs.map((log) => (
-            <TableRow key={log.id}>
-              <TableCell>{log.id}</TableCell>
-              <TableCell>{log.timestamp}</TableCell>
-              <TableCell>{log.message}</TableCell>
-              <TableCell>{log.exception}</TableCell>
-              <TableCell>{log.action}</TableCell>
-              <TableCell>{log.userId}</TableCell>
+      <TableContainer style={{ maxWidth: '800px', margin: '0 auto' }}> {/* Set max width for the table container */}
+        <Table>
+          <TableHead>
+            <TableRow style={{ backgroundColor: '#f5f5f5' }}>
+              <TableCell style={{ width: '10%' }}>Id</TableCell>
+              <TableCell style={{ width: '20%' }}>Timestamp</TableCell>
+              <TableCell style={{ width: '20%' }}>Message</TableCell>
+              <TableCell style={{ width: '20%' }}>Exception</TableCell>
+              <TableCell style={{ width: '15%' }}>Action</TableCell>
+              <TableCell style={{ width: '15%' }}>UserId</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <button onClick={onHideReviewLogs} style={{ marginTop: '20px', backgroundColor: 'rgb(0, 91, 171)', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '5px', cursor: 'pointer' }}>Return to Welcome Page</button>
+          </TableHead>
+          <TableBody>
+            {logs.map((log) => (
+              <TableRow key={log.id}>
+                <TableCell>{log.id}</TableCell>
+                <TableCell>{log.timestamp}</TableCell>
+                <TableCell>{log.message}</TableCell>
+                <TableCell>{log.exception}</TableCell>
+                <TableCell>{log.action}</TableCell>
+                <TableCell>{log.userId}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Button
+        onClick={onHideReviewLogs}
+        style={{ marginTop: '20px', backgroundColor: 'rgb(0, 91, 171)', color: 'white' }}
+      >
+        Return to Welcome Page
+      </Button>
     </div>
   );
 };

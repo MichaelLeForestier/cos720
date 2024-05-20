@@ -28,14 +28,14 @@ const EditAccount: React.FC<EditAccountProps> = ({ onHideEditAccount }) => {
   };
 
   const validatePassword = (password: string): boolean => {
-    const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@!$%]).{8,}$/;
     return passwordPattern.test(password);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validatePassword(formData.newPassword)) {
-      setPasswordError('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.');
+      setPasswordError('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and a special character.');
       return;
     }
     if (formData.newPassword !== formData.confirmPassword) {
