@@ -14,12 +14,14 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import Logo from './IconMike/logo.png';
 import backgroundImage from '../imgs/AppBar.png';
+import { useHistory } from 'react-router-dom'; // Import useHistory for navigation
 
 interface Props {
   isAdmin: boolean;
   onAddUser: () => void;
   editAccount:() => void;
   manageModules:() => void;
+  reviewLogs:() => void; // Add reviewLogs function
 }
 
 const settings = ['Edit Account','Logout']; // Only "Logout" is displayed in settings
@@ -28,9 +30,11 @@ const ResponsiveAppBar: React.FC<Props> = ({
   isAdmin,
   onAddUser,
   editAccount,
-  manageModules
+  manageModules,
+  reviewLogs // Add reviewLogs prop
 }) => {
   const [profileAnchorEl, setProfileAnchorEl] = React.useState<null | HTMLElement>(null);
+  const history = useHistory(); // Initialize useHistory
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setProfileAnchorEl(event.currentTarget);
@@ -49,7 +53,7 @@ const ResponsiveAppBar: React.FC<Props> = ({
   // Function to handle logout
   const handleLogout = () => {
     localStorage.removeItem('token');
-    window.location.href = '/login';
+    history.push('/login'); // Redirect to login page
   };
 
   const handleMenuItemClick = (setting: string) => {
@@ -63,6 +67,9 @@ const ResponsiveAppBar: React.FC<Props> = ({
       handleProfileMenuClose();
     } else if (setting === 'Manage Modules'){
       manageModules();
+      handleProfileMenuClose();
+    } else if (setting === 'Review Logs'){ // Check if setting is Review Logs
+      reviewLogs(); // Call reviewLogs function
       handleProfileMenuClose();
     }
   };
@@ -130,6 +137,11 @@ const ResponsiveAppBar: React.FC<Props> = ({
                 <MenuItem onClick={() => handleMenuItemClick('Manage Modules')}>
                   Manage Modules
                 </MenuItem>
+                {isAdmin && ( // Display Review Logs only for admins
+                  <MenuItem onClick={() => handleMenuItemClick('Review Logs')}>
+                    Review Logs
+                  </MenuItem>
+                )}
                 {settings.map((setting) => (
                   <MenuItem
                     key={setting}

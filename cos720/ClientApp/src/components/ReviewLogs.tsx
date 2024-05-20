@@ -11,7 +11,11 @@ interface Log {
   userId: string;
 }
 
-const LogPage: React.FC = () => {
+interface ReviewLogsProps {
+  onHideReviewLogs: () => void;
+}
+
+const LogPage: React.FC<ReviewLogsProps> = ({ onHideReviewLogs }) => { // Updated to accept onHideReviewLogs prop
   const [logs, setLogs] = useState<Log[]>([]);
   const [action, setAction] = useState<string>('');
   const [userId, setUserId] = useState<string>('');
@@ -22,7 +26,13 @@ const LogPage: React.FC = () => {
 
   const fetchLogs = async () => {
     try {
-      const response = await axios.get(`https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/Logging/SearchLogs?action=${action}&userId=${userId}`);
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('Token not found');
+        return;
+      }
+      const config = { headers: { 'Authorization': `Bearer ${token}` } };
+      const response = await axios.get(`https://umz8jir766.execute-api.eu-north-1.amazonaws.com/dev/api/Logging/SearchLogs?action=${action}&userId=${userId}`,config);
       setLogs(response.data);
     } catch (error) {
       console.error('Failed to fetch logs', error);
@@ -62,6 +72,7 @@ const LogPage: React.FC = () => {
           ))}
         </TableBody>
       </Table>
+      <button onClick={onHideReviewLogs}>Return to Welcome Page</button> {/* Button to return to the Welcome Page */}
     </div>
   );
 };
