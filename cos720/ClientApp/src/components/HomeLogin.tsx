@@ -69,7 +69,7 @@ const HomeLogin: React.FC = () => {
       <Container maxWidth="xl" style={{ paddingTop: '20px', marginBottom: '40px' }}>
         <WelcomePage />
       </Container>
-      <footer style={{ bottom: 0, left: 0, width: '100%', textAlign: 'center', backgroundColor: 'rgb(0, 91, 171)', color: '#fff', padding: '10px 0' }}>
+      <footer style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', textAlign: 'center', backgroundColor: 'rgb(0, 91, 171)', color: '#fff', padding: '10px 0' }}>
         Created by Michael le Forestier &copy; {new Date().getFullYear()}
       </footer>
     </div>

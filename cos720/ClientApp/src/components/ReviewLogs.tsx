@@ -82,7 +82,7 @@ const LogPage: React.FC<ReviewLogsProps> = ({ onHideReviewLogs }) => {
               <TableCell style={{ width: '10%' }}>Id</TableCell>
               <TableCell style={{ width: '20%' }}>Timestamp</TableCell>
               <TableCell style={{ width: '20%' }}>Message</TableCell>
-              <TableCell style={{ width: '20%' }}>Exception</TableCell>
+           
               <TableCell style={{ width: '15%' }}>Action</TableCell>
               <TableCell style={{ width: '15%' }}>UserId</TableCell>
             </TableRow>
