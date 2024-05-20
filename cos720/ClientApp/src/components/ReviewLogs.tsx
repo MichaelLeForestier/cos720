@@ -77,7 +77,7 @@ const LogPage: React.FC<ReviewLogsProps> = ({ onHideReviewLogs }) => {
           Refresh
         </Button>
       </div>
-      <TableContainer style={{ maxWidth: '800px', margin: '0 auto' }}> {/* Set max width for the table container */}
+      <TableContainer style={{ maxWidth: '200px', margin: '0 auto' }}> {/* Set max width for the table container */}
         <Table>
           <TableHead>
             <TableRow style={{ backgroundColor: '#f5f5f5' }}>
