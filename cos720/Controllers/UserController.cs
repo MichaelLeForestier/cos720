@@ -16,7 +16,7 @@ namespace Mike.Controllers
         private readonly UserService _userService;
         private readonly AuthenticationService _authenticationService;
         private readonly LoggingService _loggingService;
-        private readonly TokenService _tokenService;
+        
         public UserController(UserService userService, AuthenticationService authenticationService, LoggingService loggingService)
         {
             _userService = userService;
